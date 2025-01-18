@@ -1,0 +1,27 @@
+Text_Extraction_Specialist_Task:
+
+  description: >
+    The agent receives a list of images {images} as input. 
+    It iteratively processes each image using all available text extraction tools. 
+    The extracted text from each tool is compared to identify and rectify discrepancies, 
+    such as spelling mistakes or contextual inconsistencies, by referencing the combined outputs. 
+    This agent ensures that no information is lost or inaccurately transformed.
+
+  expected_output: >
+    A comprehensive text output containing all extracted content from the images, with corrections made based on cross-validation among tools. This output will include all details, without omissions, formatted exactly as represented in the input images.
+  Agent: Text_Extraction_Specialist
+
+
+Output_Format_Analyzer_Task:
+
+  description: >
+    The agent receives text extracted and analyzes its structure to determine 
+    the appropriate format (e.g., form, table, dataframe, code, plain text). 
+    It then applies the relevant formatting to generate the desired output. 
+    After formatting, the agent cross-checks its work to ensure accuracy and consistency 
+    before delivering the final result.
+
+  expected_output: >
+    A correctly formatted version of the extracted text, preserving all details and aligning 
+    with the identified content type, such as a formatted form, table, dataframe, plain text, or code.
+  Agent: Output_Format_Analyzer

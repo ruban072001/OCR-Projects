@@ -41,7 +41,27 @@ with st.sidebar:
                continue
             coloured_images.append(BGR_image)
             
-        
-print(Language.split(','))      
-for img in coloured_images:
+language = Language.split(',')
+img_values = []  
+for ind, img in enumerate(coloured_images):
+    H, W = img.shape[:2]
+    reader = easyocr.Reader(language)
+    text = reader.readtext(img, paragraph=True)
+    print(text)
+    img_text = []
+    img_text.clear()
+    for i in text:
+        if len(i) == 2:
+            x, y = int(i[0][0][0]), int(i[0][0][1])
+            w, h = int(i[0][2][0]), int(i[0][2][1])
+            img_text.append(
+                {"Extracted_text:" : i[1], 
+                 "Extracted_text_coordinates" : {'bottom left': (x, y), 'top right': (w, h)},
+                 "Original_image_size(w, h)": (W, H)
+                 }
+                )
+            cv2.rectangle(img, (x, y), (w, h), (255, 0, 0), 2)
+    img_values.append({f"image_{ind+1}":img_text})    
     st.image(img)
+
+st.write(img_values)
