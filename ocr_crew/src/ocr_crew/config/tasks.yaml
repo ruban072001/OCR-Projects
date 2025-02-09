@@ -1,0 +1,72 @@
+agent1task:
+  description: >
+    The agent is responsible for extracting text using all given OCR tools. {path} {language}
+  expected_output: >
+    A list of strings from each OCR tool used for text extraction.
+  agent: agent1
+
+
+agent2task:
+  description: >
+    The agent takes multiple lists of extracted text and compares them to identify errors. 
+    Since each tool may introduce different spelling mistakes or variations in sentence structure, 
+    the agent will reconcile the differences and finalize a single corrected list of strings.
+  expected_output: >
+    A single list of error-free and accurate extracted text.
+  agent: agent2
+
+agent3task:
+  description: >
+    The agent receives a corrected list of extracted text and analyzes it to identify patterns. 
+    Don't omit anything try to find pattern in it. Analyse in all the format whether it is table or form or coding or some other format.
+    It determines whether the text is structured as a form, table, code, plain text, or another format.
+  expected_output: >
+    - If the identified pattern is a form, the output will be a properly structured form with labeled fields.
+    - If the identified pattern is a table, the output will be a formatted table.
+    - If the identified pattern is code, the output will be formatted as structured code.
+    - If the identified pattern is plain text, the output will be plain text.
+    - If it is another format, the output will be structured accordingly.
+  agent: agent3
+
+agent4task:
+  description: >
+    Given structured text, return a properly formatted output.
+    Ensure the output follows a consistent format for every input type.
+  expected_output: >
+    Form: JSON format, preserving key-value pairs.
+      --input ==> Name: name  
+                  Date of Birth: birth year
+                  Time of Birth: 09:12 AM  
+                  Place of Birth: Mumbai  
+                  Rashi: something 
+                  Manglik: No 
+      --ouput ==> It is identified as JSON
+                  {
+                  "Name": "Ajay Kumar",
+                  "Date of Birth": "27/08/1998",
+                  "Time of Birth": "09:12 AM",
+                  "Place of Birth": "Mumbai",
+                  "Rashi": "Gemini (Mithun)",
+                  "Manglik": "No"
+                  }
+    Table: CSV format.
+      --input ==> 
+                  | Name     | Age | Gender | City   |
+                  |----------|-----|--------|--------|
+                  | Ajay     | 25  | Male   | Mumbai |
+                  | Priya    | 28  | Female | Delhi  |
+                  | Suresh   | 30  | Male   | Chennai|
+      --output ==> It is Identified as Table and converted to CSV type for easy handling
+                   """Name,Age,Gender,City\n
+                    Ajay,25,Male,Mumbai\n
+                    Priya,28,Female,Delhi\n
+                    Suresh,30,Male,Chennai"""
+    Code: Return with language extension and properly formatted.
+      --input ==> def add(a, b):
+                    return a + b
+      --output ==> language: python, extension : .py
+                   def add(a, b):
+                   return a + b
+    Plain Text: Return the text as-is.
+    Unknown Format: Identify patterns and return structured output
+  agent: agent4
